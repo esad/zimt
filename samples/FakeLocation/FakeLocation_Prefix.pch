@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'FakeLocation' target in the 'FakeLocation' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+#endif

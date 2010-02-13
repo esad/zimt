@@ -9,15 +9,21 @@
 /* Begin PBXBuildFile section */
 		AA747D9F0F9514B9006C5449 /* Zimt_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* Zimt_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
+		C779972D112758C500B197AE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C779972C112758C500B197AE /* CoreLocation.framework */; };
 		C7BF061111273DE3000F2DF4 /* ZTLog.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BF060F11273DE3000F2DF4 /* ZTLog.h */; };
 		C7BF061211273DE3000F2DF4 /* Zimt.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BF061011273DE3000F2DF4 /* Zimt.h */; };
+		C7BF06A011274609000F2DF4 /* ZTFakeLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BF069E11274609000F2DF4 /* ZTFakeLocationManager.m */; };
+		C7BF0822112750B1000F2DF4 /* ZTFakeLocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BF0821112750B1000F2DF4 /* ZTFakeLocationManager.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		AA747D9E0F9514B9006C5449 /* Zimt_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Zimt_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C779972C112758C500B197AE /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		C7BF060F11273DE3000F2DF4 /* ZTLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZTLog.h; path = Zimt/ZTLog.h; sourceTree = "<group>"; };
 		C7BF061011273DE3000F2DF4 /* Zimt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Zimt.h; path = Zimt/Zimt.h; sourceTree = "<group>"; };
+		C7BF069E11274609000F2DF4 /* ZTFakeLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZTFakeLocationManager.m; sourceTree = "<group>"; };
+		C7BF0821112750B1000F2DF4 /* ZTFakeLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZTFakeLocationManager.h; path = Zimt/ZTFakeLocationManager.h; sourceTree = "<group>"; };
 		D2AAC07E0554694100DB518D /* libZimt.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZimt.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -27,6 +33,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */,
+				C779972D112758C500B197AE /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,6 +52,7 @@
 			isa = PBXGroup;
 			children = (
 				08FB77AEFE84172EC02AAC07 /* Core */,
+				C7BF069B11274553000F2DF4 /* Fake Location Manager */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
@@ -56,6 +64,7 @@
 			isa = PBXGroup;
 			children = (
 				AACBBE490F95108600F1A2B1 /* Foundation.framework */,
+				C779972C112758C500B197AE /* CoreLocation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -77,6 +86,15 @@
 			name = "Other Sources";
 			sourceTree = "<group>";
 		};
+		C7BF069B11274553000F2DF4 /* Fake Location Manager */ = {
+			isa = PBXGroup;
+			children = (
+				C7BF0821112750B1000F2DF4 /* ZTFakeLocationManager.h */,
+				C7BF069E11274609000F2DF4 /* ZTFakeLocationManager.m */,
+			);
+			name = "Fake Location Manager";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -87,6 +105,7 @@
 				AA747D9F0F9514B9006C5449 /* Zimt_Prefix.pch in Headers */,
 				C7BF061111273DE3000F2DF4 /* ZTLog.h in Headers */,
 				C7BF061211273DE3000F2DF4 /* Zimt.h in Headers */,
+				C7BF0822112750B1000F2DF4 /* ZTFakeLocationManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +152,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7BF06A011274609000F2DF4 /* ZTFakeLocationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
