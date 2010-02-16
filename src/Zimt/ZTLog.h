@@ -1,7 +1,7 @@
 #ifdef DEBUG
-    #define ZTLog(xx, ...)  NSLog(@"%s(%d): " xx, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
-    #define ZTLogRect(r)    NSLog(@"%s(%d): NSRect <x:%f y:%f w:%f h:%f>", __PRETTY_FUNCTION__, __LINE__, r.origin.x, r.origin.y, r.size.width, r.size.height)
+    #define ZTLog(xx, ...) NSLog(@"%s(%d): " xx, ((strrchr(__FILE__, '/') ? : __FILE__- 1) + 1), __LINE__, ##__VA_ARGS__)
 #else
-    #define ZTLog(r)         ((void)0)
-    #define ZTLogRect(...)   ((void)0)
+    #define ZTLog(xx, ...) ((void)0)
 #endif
+
+#define ZTLogRect(r) ZTLog(@"%s x=%f, y=%f, w=%f, h=%f", #r, r.origin.x, r.origin.y, r.size.width, r.size.height)
