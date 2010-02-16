@@ -20,3 +20,7 @@ Zimt is a collection of various utilities that should help you with iPhone Objec
 ## ZTFakeLocationManager
 
 CLLocationManager subclass that can read a list of waypoints from a file and simulate location updates. Meant to be used on simulator for testing. See samples/FakeLocation
+
+## ZTWebSocket
+
+Objective-C websocket implementation (based on AsyncSocket)
