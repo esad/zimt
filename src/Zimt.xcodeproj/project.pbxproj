@@ -10,6 +10,11 @@
 		AA747D9F0F9514B9006C5449 /* Zimt_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* Zimt_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 		C779972D112758C500B197AE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C779972C112758C500B197AE /* CoreLocation.framework */; };
+		C779986F112768BA00B197AE /* ZTWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = C779986D112768BA00B197AE /* ZTWebSocket.m */; };
+		C77998721127699100B197AE /* AsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = C77998701127699100B197AE /* AsyncSocket.h */; };
+		C77998731127699100B197AE /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = C77998711127699100B197AE /* AsyncSocket.m */; };
+		C77999CB1128EE0200B197AE /* ZTWebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = C77999CA1128EE0200B197AE /* ZTWebSocket.h */; };
+		C7799AC41128F28100B197AE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7799A1F1128F03600B197AE /* CFNetwork.framework */; };
 		C7BF061111273DE3000F2DF4 /* ZTLog.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BF060F11273DE3000F2DF4 /* ZTLog.h */; };
 		C7BF061211273DE3000F2DF4 /* Zimt.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BF061011273DE3000F2DF4 /* Zimt.h */; };
 		C7BF06A011274609000F2DF4 /* ZTFakeLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BF069E11274609000F2DF4 /* ZTFakeLocationManager.m */; };
@@ -20,6 +25,11 @@
 		AA747D9E0F9514B9006C5449 /* Zimt_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Zimt_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C779972C112758C500B197AE /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		C779986D112768BA00B197AE /* ZTWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZTWebSocket.m; sourceTree = "<group>"; };
+		C77998701127699100B197AE /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncSocket.h; path = ../vendor/AsyncSocket/AsyncSocket.h; sourceTree = SOURCE_ROOT; };
+		C77998711127699100B197AE /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncSocket.m; path = ../vendor/AsyncSocket/AsyncSocket.m; sourceTree = SOURCE_ROOT; };
+		C77999CA1128EE0200B197AE /* ZTWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZTWebSocket.h; path = Zimt/ZTWebSocket.h; sourceTree = "<group>"; };
+		C7799A1F1128F03600B197AE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		C7BF060F11273DE3000F2DF4 /* ZTLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZTLog.h; path = Zimt/ZTLog.h; sourceTree = "<group>"; };
 		C7BF061011273DE3000F2DF4 /* Zimt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Zimt.h; path = Zimt/Zimt.h; sourceTree = "<group>"; };
 		C7BF069E11274609000F2DF4 /* ZTFakeLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZTFakeLocationManager.m; sourceTree = "<group>"; };
@@ -34,6 +44,7 @@
 			files = (
 				AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */,
 				C779972D112758C500B197AE /* CoreLocation.framework in Frameworks */,
+				C7799AC41128F28100B197AE /* CFNetwork.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +64,7 @@
 			children = (
 				08FB77AEFE84172EC02AAC07 /* Core */,
 				C7BF069B11274553000F2DF4 /* Fake Location Manager */,
+				C779986B112768AC00B197AE /* Web Socket */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
@@ -65,6 +77,7 @@
 			children = (
 				AACBBE490F95108600F1A2B1 /* Foundation.framework */,
 				C779972C112758C500B197AE /* CoreLocation.framework */,
+				C7799A1F1128F03600B197AE /* CFNetwork.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -84,6 +97,25 @@
 				AA747D9E0F9514B9006C5449 /* Zimt_Prefix.pch */,
 			);
 			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		C779986B112768AC00B197AE /* Web Socket */ = {
+			isa = PBXGroup;
+			children = (
+				C77998741127699D00B197AE /* AsyncSocket */,
+				C77999CA1128EE0200B197AE /* ZTWebSocket.h */,
+				C779986D112768BA00B197AE /* ZTWebSocket.m */,
+			);
+			name = "Web Socket";
+			sourceTree = "<group>";
+		};
+		C77998741127699D00B197AE /* AsyncSocket */ = {
+			isa = PBXGroup;
+			children = (
+				C77998701127699100B197AE /* AsyncSocket.h */,
+				C77998711127699100B197AE /* AsyncSocket.m */,
+			);
+			name = AsyncSocket;
 			sourceTree = "<group>";
 		};
 		C7BF069B11274553000F2DF4 /* Fake Location Manager */ = {
@@ -106,6 +138,8 @@
 				C7BF061111273DE3000F2DF4 /* ZTLog.h in Headers */,
 				C7BF061211273DE3000F2DF4 /* Zimt.h in Headers */,
 				C7BF0822112750B1000F2DF4 /* ZTFakeLocationManager.h in Headers */,
+				C77998721127699100B197AE /* AsyncSocket.h in Headers */,
+				C77999CB1128EE0200B197AE /* ZTWebSocket.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,6 +187,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7BF06A011274609000F2DF4 /* ZTFakeLocationManager.m in Sources */,
+				C779986F112768BA00B197AE /* ZTWebSocket.m in Sources */,
+				C77998731127699100B197AE /* AsyncSocket.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,6 +233,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_LDFLAGS = "-ObjC";

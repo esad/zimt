@@ -10,7 +10,7 @@
 
 @class FakeLocationViewController;
 
-@interface FakeLocationAppDelegate : NSObject <UIApplicationDelegate> {
+@interface FakeLocationAppDelegate : NSObject <UIApplicationDelegate,ZTWebSocketDelegate> {
     UIWindow *window;
     FakeLocationViewController *viewController;
 }
