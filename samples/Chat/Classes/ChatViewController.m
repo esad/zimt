@@ -41,8 +41,7 @@
 }
 
 -(void)webSocket:(ZTWebSocket *)webSocket didReceiveMessage:(NSString*)message {
-    ZTLog(@"RX %@",message);
-    [self write:[NSString stringWithFormat:@"Bot: %@",message]];
+    [self write:message];
 }
 
 -(void)webSocketDidOpen:(ZTWebSocket *)aWebSocket {
@@ -62,7 +61,6 @@
         messages++;
         [activityIndicator startAnimating];
         [webSocket send:aTextField.text];
-        [self write:[NSString stringWithFormat:@"Me: %@",aTextField.text]]; 
     } else {
         [self write:@"Cannot send message, not connected"];
     }   
@@ -74,5 +72,10 @@
     if (!webSocket.connected) {
         [webSocket open];
     }
+}
+
+-(void)dealloc {
+    [webSocket release];
+    [super dealloc];
 }
 @end
