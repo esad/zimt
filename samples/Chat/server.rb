@@ -26,7 +26,7 @@ EventMachine.run {
   Thread.new do
      while(true) do
         @channel.push "Server: ping"
-        sleep 5
+        sleep 1
       end
   end
 }
