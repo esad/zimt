@@ -10,71 +10,6 @@
 #import "ZTWebSocket.h"
 #import "AsyncSocket.h"
 
-@interface ZTWebSocketWorker : NSObject {
-    BOOL running;
-    NSCondition* loopAvailableCondition;
-    NSRunLoop* loop;
-}
--(NSRunLoop*)start;
--(void)stop;
-@end
-
-@implementation ZTWebSocketWorker 
-
--(id)init {
-    if (self=[super init]) {
-        loopAvailableCondition = [[NSCondition alloc] init];
-    }
-    return self;
-}
-
--(void)_loop {
-    NSAutoreleasePool *outerPool = [[NSAutoreleasePool alloc] init];
-    
-    //ZTLog(@"worker run loop starting");
-    
-    loop = [[NSRunLoop currentRunLoop] retain];
-    
-    [loopAvailableCondition lock];
-    [loopAvailableCondition signal];
-    [loopAvailableCondition unlock];
-    
-    do {
-        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-        [loop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:5.0f]];
-        //ZTLog(@"I'm in ur runloop doing some polling");
-        [pool release];
-        @synchronized(self) {
-            if (!running) break;
-        }
-    } while(1);
-    
-    [loop release];
-    loop = nil;
-    
-    //ZTLog(@"worker run loop finished");
-    [outerPool release];
-}
-
--(NSRunLoop*)start {
-    @synchronized(self) { running = YES; }
-    [NSThread detachNewThreadSelector:@selector(_loop) toTarget:self withObject:nil];
-    [loopAvailableCondition lock];
-    while (!loop) [loopAvailableCondition wait];
-    [loopAvailableCondition unlock];
-    return loop;
-}
-
--(void)stop {
-    @synchronized(self) { running = NO; }
-}
-
--(void)dealloc {
-    [loopAvailableCondition release];
-    [super dealloc];
-}
-
-@end
 
 NSString* const ZTWebSocketErrorDomain = @"ZTWebSocketErrorDomain";
 NSString* const ZTWebSocketException = @"ZTWebSocketException";
@@ -102,42 +37,36 @@ enum {
             [NSException raise:ZTWebSocketException format:[NSString stringWithFormat:@"Unsupported protocol %@",url.scheme]];
         }
         socket = [[AsyncSocket alloc] initWithDelegate:self];
-        worker = [[ZTWebSocketWorker alloc] init];
     }
     return self;
 }
 
 #pragma mark Delegate dispatch methods
 
-#define DISPATCH_FAILURE(code) [self performSelectorOnMainThread:@selector(_dispatchFailure:) withObject:[NSNumber numberWithInteger:code] waitUntilDone:NO]
 -(void)_dispatchFailure:(NSNumber*)code {
     if(delegate && [delegate respondsToSelector:@selector(webSocket:didFailWithError:)]) {
         [delegate webSocket:self didFailWithError:[NSError errorWithDomain:ZTWebSocketErrorDomain code:[code intValue] userInfo:nil]];
     }
 }
 
-#define DISPATCH_CLOSED() [self performSelectorOnMainThread:@selector(_dispatchClosed) withObject:nil waitUntilDone:NO]
 -(void)_dispatchClosed {
     if (delegate && [delegate respondsToSelector:@selector(webSocketDidClose:)]) {
         [delegate webSocketDidClose:self];
     }
 }
 
-#define DISPATCH_OPENED() [self performSelectorOnMainThread:@selector(_dispatchOpened) withObject:nil waitUntilDone:NO]
 -(void)_dispatchOpened {
     if (delegate && [delegate respondsToSelector:@selector(webSocketDidOpen:)]) {
         [delegate webSocketDidOpen:self];
     }
 }
 
-#define DISPATCH_MESSAGE_RECEIVED(msg) [self performSelectorOnMainThread:@selector(_dispatchMessageReceived:) withObject:msg waitUntilDone:NO]
 -(void)_dispatchMessageReceived:(NSString*)message {
     if (delegate && [delegate respondsToSelector:@selector(webSocket:didReceiveMessage:)]) {
         [delegate webSocket:self didReceiveMessage:message];
     }
 }
 
-#define DISPATCH_MESSAGE_SENT() [self performSelectorOnMainThread:@selector(_dispatchMessageSent) withObject:nil waitUntilDone:NO]
 -(void)_dispatchMessageSent {
     if (delegate && [delegate respondsToSelector:@selector(webSocketDidSendMessage:)]) {
         [delegate webSocketDidSendMessage:self];
@@ -152,6 +81,10 @@ enum {
 
 #pragma mark Public interface
 
+- (BOOL)setRunLoopModes:(NSArray *)runLoopModes {
+	return [socket setRunLoopModes:runLoopModes];
+}
+
 -(void)close {
     [socket disconnectAfterReadingAndWriting];
 }
@@ -159,8 +92,6 @@ enum {
 -(void)open {
     if (!connected) {
         [socket connectToHost:url.host onPort:[url.port intValue] withTimeout:5 error:nil];
-        NSRunLoop* workerLoop = [worker start];
-        [socket moveToRunLoop:workerLoop];
     }
 }
 
@@ -176,16 +107,13 @@ enum {
 
 -(void)onSocketDidDisconnect:(AsyncSocket *)sock {
     connected = NO;
-    [worker stop];
 }
 
 -(void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)err {
     if (!connected) {
-        DISPATCH_FAILURE(ZTWebSocketErrorConnectionFailed);
-        //[self _dispatchFailure:ZTWebSocketErrorConnectionFailed];
+        [self _dispatchFailure:[NSNumber numberWithInt:ZTWebSocketErrorConnectionFailed]];
     } else {
-        DISPATCH_CLOSED();
-        //[self _dispatchClosed];
+        [self _dispatchClosed];
     }
 }
 
@@ -207,8 +135,7 @@ enum {
     if (tag == ZTWebSocketTagHandshake) {
         [sock readDataToData:[@"\r\n\r\n" dataUsingEncoding:NSASCIIStringEncoding] withTimeout:-1 tag:ZTWebSocketTagHandshake];
     } else if (tag == ZTWebSocketTagMessage) {
-        DISPATCH_MESSAGE_SENT();
-        //[self _dispatchMessageSent];
+        [self _dispatchMessageSent];
     }
 }
 
@@ -217,13 +144,11 @@ enum {
         NSString* response = [[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding] autorelease];
         if ([response hasPrefix:@"HTTP/1.1 101 Web Socket Protocol Handshake\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\n"]) {
             connected = YES;
-            DISPATCH_OPENED();
-            //[self _dispatchOpened];
+            [self _dispatchOpened];
             
             [self _readNextMessage];
         } else {
-            DISPATCH_FAILURE(ZTWebSocketErrorHandshakeFailed);
-            //[self _dispatchFailure:ZTWebSocketErrorHandshakeFailed];
+            [self _dispatchFailure:[NSNumber numberWithInt:ZTWebSocketErrorHandshakeFailed]];
         }
     } else if (tag == ZTWebSocketTagMessage) {
         char firstByte = 0xFF;
@@ -231,8 +156,7 @@ enum {
         if (firstByte != 0x00) return; // Discard message
         NSString* message = [[[NSString alloc] initWithData:[data subdataWithRange:NSMakeRange(1, [data length]-2)] encoding:NSUTF8StringEncoding] autorelease];
     
-        DISPATCH_MESSAGE_RECEIVED(message);
-        //[self _dispatchMessageReceived:message];
+        [self _dispatchMessageReceived:message];
         [self _readNextMessage];
     }
 }
@@ -240,8 +164,6 @@ enum {
 #pragma mark Destructor
 
 -(void)dealloc {
-    [worker stop];
-    [worker release];
     socket.delegate = nil;
     [socket disconnect];
     [socket release];

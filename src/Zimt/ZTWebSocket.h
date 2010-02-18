@@ -10,7 +10,6 @@
 
 @class AsyncSocket;
 @class ZTWebSocket;
-@class ZTWebSocketWorker;
 
 @protocol ZTWebSocketDelegate<NSObject>
 @optional 
@@ -27,8 +26,6 @@
     AsyncSocket* socket;
     BOOL connected;
     NSString* origin;
-    
-    ZTWebSocketWorker* worker;
 }
 
 @property(nonatomic,assign) id<ZTWebSocketDelegate> delegate;
@@ -38,6 +35,8 @@
 
 + (id)webSocketWithURLString:(NSString*)urlString delegate:(id<ZTWebSocketDelegate>)delegate;
 - (id)initWithURLString:(NSString*)urlString delegate:(id<ZTWebSocketDelegate>)delegate;
+
+- (BOOL)setRunLoopModes:(NSArray *)runLoopModes;
 
 - (void)open;
 - (void)close;
