@@ -10,10 +10,14 @@ Zimt is a collection of various utilities that should help you with iPhone Objec
 
 3. Under "Targets", right click your Application target, choose "Get Info" and under "General" tab add direct dependency to "Zimt"
 
-4. Include Zimt headers in your project: Under "Project" > "Edit Project Settings", go to "Build" tab. Search for "Header Search Paths" and double-click
+4. Now you need to add the CFNetwork to your project.  Right click on the
+   "Frameworks" group in your project (or equivalent) and select Add > Existing Frameworks. 
+   Then locate CFNetwork.framework and add it to the project.
+
+5. Include Zimt headers in your project: Under "Project" > "Edit Project Settings", go to "Build" tab. Search for "Header Search Paths" and double-click
    it. Add the relative path from your project's directory to the "zimt/src" directory
 
-5. Setup the debug macro: in "Projects" > "Edit Project Settings", under "Build tab", choose "Debug Configuration". Search for "Preprocessor macros", add DEBUG=1
+6. Setup the debug macro: in "Projects" > "Edit Project Settings", under "Build tab", choose "Debug Configuration". Search for "Preprocessor macros", add DEBUG=1
 
 # What's inside
 
