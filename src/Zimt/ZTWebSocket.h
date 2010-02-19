@@ -26,17 +26,18 @@
     AsyncSocket* socket;
     BOOL connected;
     NSString* origin;
+    
+    NSArray* runLoopModes;
 }
 
 @property(nonatomic,assign) id<ZTWebSocketDelegate> delegate;
 @property(nonatomic,readonly) NSURL* url;
 @property(nonatomic,retain) NSString* origin;
 @property(nonatomic,readonly) BOOL connected;
+@property(nonatomic,retain) NSArray* runLoopModes;
 
 + (id)webSocketWithURLString:(NSString*)urlString delegate:(id<ZTWebSocketDelegate>)delegate;
 - (id)initWithURLString:(NSString*)urlString delegate:(id<ZTWebSocketDelegate>)delegate;
-
-- (BOOL)setRunLoopModes:(NSArray *)runLoopModes;
 
 - (void)open;
 - (void)close;

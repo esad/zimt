@@ -21,7 +21,7 @@ enum {
 
 @implementation ZTWebSocket
 
-@synthesize delegate, url, origin, connected;
+@synthesize delegate, url, origin, connected, runLoopModes;
 
 #pragma mark Initializers
 
@@ -37,6 +37,7 @@ enum {
             [NSException raise:ZTWebSocketException format:[NSString stringWithFormat:@"Unsupported protocol %@",url.scheme]];
         }
         socket = [[AsyncSocket alloc] initWithDelegate:self];
+        self.runLoopModes = [NSArray arrayWithObjects:NSRunLoopCommonModes, nil]; 
     }
     return self;
 }
@@ -81,10 +82,6 @@ enum {
 
 #pragma mark Public interface
 
-- (BOOL)setRunLoopModes:(NSArray *)runLoopModes {
-	return [socket setRunLoopModes:runLoopModes];
-}
-
 -(void)close {
     [socket disconnectAfterReadingAndWriting];
 }
@@ -92,6 +89,7 @@ enum {
 -(void)open {
     if (!connected) {
         [socket connectToHost:url.host onPort:[url.port intValue] withTimeout:5 error:nil];
+        if (runLoopModes) [socket setRunLoopModes:runLoopModes];
     }
 }
 
@@ -167,6 +165,7 @@ enum {
     socket.delegate = nil;
     [socket disconnect];
     [socket release];
+    [runLoopModes release];
     [url release];
     [super dealloc];
 }

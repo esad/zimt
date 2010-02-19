@@ -20,10 +20,7 @@
 
 -(void)viewDidLoad {
     webSocket = [[ZTWebSocket alloc] initWithURLString:@"ws://localhost:10000/" delegate:self];
-    [webSocket open];
-	NSArray *runLoopModes = [NSArray arrayWithObjects:NSRunLoopCommonModes, nil]; 
-	[webSocket setRunLoopModes:runLoopModes]; 
-	
+    [webSocket open];	
     [textField becomeFirstResponder];
 }
 
