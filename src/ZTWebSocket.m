@@ -6,7 +6,6 @@
 //  Copyright 2010 OpenResearch Software Development OG. All rights reserved.
 //
 
-#import "ZTLog.h"
 #import "ZTWebSocket.h"
 #import "AsyncSocket.h"
 
